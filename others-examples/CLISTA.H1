@@ -1,0 +1,39 @@
+// ----------------------------------------------------------------------------
+//
+// Fichero			: CLISTA.H1
+// Tipo Componente		: Especificaci¢n e Implementaci¢n
+// Sistema			: Est ndar C++ 3.0
+// Descripci¢n			: Clase Lista Circular
+// Proyecto			: "Programaci¢n en C++"
+// Autor			: JHO/EHO
+// Versi¢n			: Versi¢n 2.0 Marzo 1993
+//
+// ----------------------------------------------------------------------------
+
+// class clista {
+
+private:
+  static info Error;
+  static info C_Error;	// Copia del error para retornar por referencia
+  static void Poner_Error(info & );
+
+  class nodo {
+  public:
+    info Dato;
+    nodo *Prev, *Prox;
+    nodo(info i, nodo *p= NULL, nodo *q= NULL) {
+      Dato= i; Prev= p; Prox= q;
+    }
+
+    ~nodo() {
+    }
+  };
+  nodo *POS;                            // Posici¢n en la lista
+
+  int Tam;                              // Tama¤o. As¡ se simplifican las operaciones
+
+  void Constr();
+  void Destr();
+  void Copiar(const clista & );
+
+// public:....

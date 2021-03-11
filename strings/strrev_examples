@@ -1,0 +1,182 @@
+#include <stdio.h>                                                                /* strrev.c */
+#include <string.h>
+#include <stdlib.h>
+
+char * strrev(char * string) {
+  int length = strlen(string);
+  char * result = malloc(length+1);
+  if( result != NULL ) {
+    int i,j;                                         result[length] = '\0';
+    for ( i = length-1, j=0;   i >= 0;   i--, j++ )  result[j] = string[i];
+  }
+  return result;
+}
+
+int main() {  char msg1[] = "Hello world!";
+  char * msg2; msg2 = strrev(msg1);
+  printf("Reversing finished!\n");      //@{}@XPC {local variables clobber stack!}
+  printf("msg2=`%s'\n", msg2);
+  free(msg2);
+  return 0; }
+
+
+
+
+
+
+
+
+/////////////////////////////////////////////////////////////////////////////////
+
+
+/* string_reverse - */
+#include <stdio.h>
+
+int string_length(char s[])
+{
+int i;
+for (i = 0; s[i]; i++)
+      ;
+return i;
+}
+/* Function reverse */
+void string_reverse(char s[])
+{
+int i, j;
+for (i = 0, j = string_length(s)-1; i<j; i++, j--)
+{
+int tmp = s[i];
+s[i] = s[j];
+s[j] = tmp;
+
+}
+}
+main()
+{
+char s[] = "Hello World";
+string_reverse(s);
+printf("%s\n", s);
+}
+
+
+
+//////////////////////////////////////////////////////////////////////////////
+
+#include <stdio.h>
+#include <conio.h>
+#include <string.h>
+
+void reverse(char str[]);
+
+main()
+{
+ clrscr();
+ char str[25];
+ printf("\nEnter your nickname:");
+ gets(str);
+ reverse(str);
+ getch();
+}
+void reverse (char str[])
+{
+ int len;
+ char str1[25];
+ len=strlen(str);
+ for (int i=0,j=len-1;i<len;i++,j--)
+  str1[i]=str[j];
+ str1[i]='\0';
+ puts(str1);
+}
+
+
+////////////////////////////////////////////////////////////////////////////
+
+#include <stdio.h>
+#include <string.h>
+
+char *strrev(char *str, int strl)
+{
+    /* Creamos punteros al principio y al final de la cadena */
+    /*       C   A   R   A   C   T   E   R   5   \0 */
+    /*       |                               |      */
+    char *start = str, *end = str + strl - 1;
+    char temp;
+    /* Iteramos hasta que el principio y el fin coincidan */
+    while(start < end)
+        {
+            /* Intercambiamos los caracteres */
+            /* 1º  C A R A C T E R 5 */
+            /* 2º  5 A R A C T E R C */
+            /* 3º  5 R R A C T E A C */
+            /* 4º  5 R E A C T R A C */
+            /* 4º  5 R E T C A R A C */
+            temp = *start;
+            *start++ = *end;
+            *end-- = temp;
+        }
+    return str;
+}
+
+/* Ejemplo */
+int main()
+{
+    char cadena[50]="Una cadena de caracteres cualquiera";
+    char tmp[50]="Una cadena de caracteres cualquiera";
+    char *cad2=cadena;
+    printf("Cadena original: %s\n", cadena);
+    printf("Cadena al revés: %s\n", strrev(tmp, strlen(tmp)));
+    strrev(cadena+14, 10);
+    printf("Caracteres al revés: %s\n", cad2);
+    return 0;
+}
+
+
+
+///////////////////////////////////////////////////////////////////////////
+
+#include <u.h>
+#include <libc.h>
+
+/* SÃ³lo para ASCII
+ */
+
+char* strrev(char* s)
+{
+	int i, j;
+	char c;
+
+	for(i=0, j=strlen(s)-1; i<j; i++, j--){
+		c = s[i];
+		s[i] = s[j];
+		s[j] = c;
+	}
+	return s;
+}
+
+void
+main(int, char**)
+{
+	print("%s\n", strrev("hola!"));
+	print("%s\n", strrev("hola"));
+	print("%s\n", strrev(""));
+	print("%s\n", strrev("â˜ºÎ±"));
+}
+
+//////////////////////////////////////////////////////////////////////////
+
+void Reverse(char* pData)
+
+{
+	int Length=strlen(pData);
+                char temp; //holding area
+	char* last=pData+Length-1;//last char before null
+	while (pData<last) // stops at midpoint
+		{
+			temp=*pData;
+			*pData=*last;
+			*last=temp;
+			++pData;
+			--last;
+		}
+}
+

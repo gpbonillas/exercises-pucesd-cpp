@@ -1,0 +1,180 @@
+// ----------------------------------------------------------------------------
+//
+// Fichero			: CLISTA.H2
+// Tipo Componente		: Declaraci¢n e Implementaci¢n
+// Sistema			: Est ndar C++ 3.0
+// Descripci¢n			: Clase Lista Circular
+// Proyecto			: "Programaci¢n en C++"
+// Autor			: JHO/EHO
+// Versi¢n			: Versi¢n 2.0 Marzo 1993
+//
+// ----------------------------------------------------------------------------
+
+#include <stddef.h>     // NULL
+#include <iostream.h>   // cout
+
+template <class info>
+info clista<info>::Error;
+
+template <class info>
+info clista<info>::C_Error;
+
+template <class info>
+void clista<info>::Poner_Error(info & e) {
+  Error= e;
+}
+
+template <class info>
+inline
+void clista<info>::Constr() {
+  POS= NULL;
+  Tam= 0;
+}
+
+template <class info>
+void clista<info>::Destr() {
+  while (!Vacia())
+    Suprimir();
+}
+
+template <class info>
+void clista<info>::Copiar(const clista<info>& l) {
+  if (!l.Vacia()) {
+    nodo *n;
+    n= l.POS;
+    do {
+      Insertar(n->Dato);
+      n= n->Prev;
+    }
+    while (n != l.POS);         // Vuelta completa
+      POS= POS->Prev;           // Nos ponemos en la misma posici¢n que la lista fuente
+  }
+}
+
+template <class info>
+clista<info>::clista() {
+  Constr();
+}
+
+template <class info>
+inline
+bool clista<info>::Llena() const {
+  return FALSE;
+}
+
+template <class info>
+inline
+bool clista<info>::Vacia() const {
+  return bool(!Tam);
+}
+
+template <class info>
+inline
+info & clista<info>::Info() const {
+  if (Vacia())
+    return C_Error= Error;
+  else
+    return POS->Dato;
+}
+
+template <class info>
+inline
+const clista<info> & clista<info>::operator ++ () {
+// Preincremento
+  if (!Vacia())
+    POS= POS->Prox;
+  return *this;
+}
+
+template <class info>
+inline
+const clista<info> & clista<info>::operator -- () {
+// Predecremento
+  if (!Vacia())
+    POS= POS->Prev;
+  return *this;
+}
+
+template <class info>
+inline
+clista<info> clista<info>::operator ++ (int ) {
+// Postincremento
+  clista Temp(*this);           // Hace una copia del propio objeto en Temp
+  if (!Vacia())
+    POS= POS->Prox;
+  return Temp;
+}
+
+template <class info>
+inline
+clista<info> clista<info>::operator -- (int ) {
+// Postdecremento
+  clista Temp(*this);           // Hace una copia del propio objeto en Temp
+  if (!Vacia())
+    POS= POS->Prev;
+  return Temp;
+}
+
+template <class info>
+void clista<info>::Insertar(info & Inf) {
+  if (Vacia()) {
+    POS= new nodo(Inf);
+    POS->Prox= POS->Prev= POS;
+  }
+  else {
+    nodo * Temp;
+    Temp= new nodo(Inf, POS->Prev, POS);        // Reserva espacio
+    (POS->Prev)->Prox= Temp;
+    POS->Prev= Temp;
+    POS= Temp;
+  }
+  Tam++;
+}
+
+template <class info>
+void clista<info>::Suprimir() {
+  if (Vacia())
+    cout << "No se puede borrar sobre una lista vac¡a";
+  else if (Tam == 1) {                // Lista £nica
+    delete POS;
+    POS= NULL;
+  }
+  else {
+   nodo * Temp;
+   Temp= POS->Prox;
+   Temp->Prev= POS->Prev;
+   (POS->Prev)->Prox= Temp;
+   delete POS;
+   POS= Temp;
+  }
+  Tam--;
+}
+
+template <class info>
+clista<info>::~clista() {
+  while (!Vacia())
+    Suprimir();
+}
+
+template <class info>
+clista<info>::clista(const clista<info> & l) {
+  Constr();
+  Copiar(l);
+}
+
+template <class info>
+const clista<info> & clista<info>::operator = (const clista<info> & l) {
+  if (this != &l) {               // Siempre que no sea autoasignaci¢n
+    Destr();
+    Constr();
+    Copiar(l);
+  }
+  return *this;
+}
+
+template <class info>
+void clista<info>::Super(const clista<info> & l) {
+  Destr();
+  POS= l.POS;
+  Tam= l.Tam;
+}
